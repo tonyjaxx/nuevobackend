@@ -1,20 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
-import 'package:dart_frog/dart_frog.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
-
 import 'package:orm/orm.dart';
-import '../../domain/repositories/user_repositories.dart';
+import 'package:uuid/uuid.dart';
+
 import '../../../../src/generated/prisma_client/client.dart';
 import '../../../../src/generated/prisma_client/model.dart';
 import '../../../../src/generated/prisma_client/prisma.dart';
-import 'package:uuid/uuid.dart';
-import 'package:dart_frog_auth/dart_frog_auth.dart';
+import '../../domain/repositories/user_repositories.dart';
 
 const secretkey = 'agustin@puntossmart';
 

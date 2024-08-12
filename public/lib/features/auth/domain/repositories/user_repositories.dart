@@ -1,4 +1,3 @@
-import 'package:dart_frog/dart_frog.dart';
 import '../../../../src/generated/prisma_client/model.dart';
 
 abstract class AuthRepositoriesInterface {
