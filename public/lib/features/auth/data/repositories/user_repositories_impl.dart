@@ -8,9 +8,9 @@ import 'package:mailer/smtp_server/gmail.dart';
 import 'package:orm/orm.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../src/generated/prisma_client/client.dart';
-import '../../../../src/generated/prisma_client/model.dart';
-import '../../../../src/generated/prisma_client/prisma.dart';
+import '../../../../../../prisma/generated_dart_client/client.dart';
+import '../../../../../../prisma/generated_dart_client/model.dart';
+import '../../../../../../prisma/generated_dart_client/prisma.dart';
 import '../../domain/repositories/user_repositories.dart';
 
 const secretkey = 'agustin@puntossmart';
@@ -86,6 +86,7 @@ class UserRepositoriesImpl implements AuthRepositoriesInterface {
           emailVerifyAt: PrismaUnion.$1(DateTime.now().toString()),
           phoneVerifyAt: PrismaUnion.$1(users.phoneVerifyAt ?? ''),
           imgProfile: PrismaUnion.$1(users.imgProfile ?? ''),
+          verifyCode: PrismaUnion.$1(users.verifyCode ?? ''),
           verifyToken: PrismaUnion.$1(users.verifyToken ?? ''),
           myReferral: PrismaUnion.$1(users.myReferral ?? ''),
           referral: PrismaUnion.$1(users.referral ?? ''),
@@ -105,8 +106,12 @@ class UserRepositoriesImpl implements AuthRepositoriesInterface {
   }
 
   @override
-  Future<User?> getSingleUser({required int id}) async {
-    final user = await _db.user.findUnique(where: UserWhereUniqueInput(id: id));
+  Future<User?> getSingleUser({required String uuid}) async {
+    final user = await _db.user.findUnique(
+      where: UserWhereUniqueInput(
+        uuid: uuid,
+      ),
+    );
     return user;
   }
 
@@ -230,11 +235,12 @@ class UserRepositoriesImpl implements AuthRepositoriesInterface {
     try {
       final existingUser = await _db.user.findUnique(
         where: UserWhereUniqueInput(
-          verifyCode: PrismaUnion.$1(
-            StringNullableFilter(
-              equals: PrismaUnion.$1(code),
-            ),
-          ),
+          // verifyCode: PrismaUnion.$1(
+          //   StringNullableFilter(
+          //     equals: PrismaUnion.$1(code),
+          //   ),
+          // ),
+          verifyCode: code,
         ),
       );
 
@@ -242,37 +248,43 @@ class UserRepositoriesImpl implements AuthRepositoriesInterface {
         return null;
       }
       final updateInput = UserUncheckedUpdateInput(
-        name: users.name != null ? PrismaUnion.$1(users.name!) : null,
-        lastname:
-            users.lastname != null ? PrismaUnion.$1(users.lastname!) : null,
-        phone: users.phone != null ? PrismaUnion.$1(users.phone!) : null,
-        password: users.password != null
+        id: PrismaUnion.$1(existingUser.id!),
+        uuid: PrismaUnion.$1(existingUser.uuid!),
+        name: users.name != null && users.name!.isNotEmpty
+            ? PrismaUnion.$1(users.name!)
+            : PrismaUnion.$1(existingUser.name!),
+        lastname: users.lastname != null && users.lastname!.isNotEmpty
+            ? PrismaUnion.$1(users.lastname!)
+            : PrismaUnion.$1(existingUser.lastname!),
+        email: PrismaUnion.$1(existingUser.email!),
+        phone: users.phone != null && users.phone!.isNotEmpty
+            ? PrismaUnion.$1(users.phone!)
+            : PrismaUnion.$1(existingUser.phone!),
+        password: users.password != null && users.password!.isNotEmpty
             ? PrismaUnion.$1(hashpassword(users.password!))
-            : null,
-        birthday:
-            users.birthday != null ? PrismaUnion.$1(users.birthday!) : null,
-        gender: users.gender != null ? PrismaUnion.$1(users.gender!) : null,
+            : PrismaUnion.$1(existingUser.password!),
+        birthday: users.birthday != null
+            ? PrismaUnion.$1(users.birthday!)
+            : PrismaUnion.$1(existingUser.birthday!),
+        gender: users.gender != null && users.gender!.isNotEmpty
+            ? PrismaUnion.$1(users.gender!)
+            : PrismaUnion.$1(existingUser.gender!),
         emailVerifyAt: PrismaUnion.$1(DateTime.now().toString()),
-        // phoneVerifyAt: users.phoneVerifyAt != null
-        //     ? PrismaUnion.$1(users.phoneVerifyAt!)
-        //     : null,
-        imgProfile:
-            users.imgProfile != null ? PrismaUnion.$1(users.imgProfile!) : null,
+        imgProfile: users.imgProfile != null && users.imgProfile!.isNotEmpty
+            ? PrismaUnion.$1(users.imgProfile!)
+            : PrismaUnion.$1(existingUser.imgProfile!),
         verifyToken: PrismaUnion.$1(generateToken(user: users)),
         myReferral: PrismaUnion.$1(generateVerificationCode(6)),
-        location:
-            users.location != null ? PrismaUnion.$1(users.location!) : null,
+        location: users.location != null && users.location!.isNotEmpty
+            ? PrismaUnion.$1(users.location!)
+            : PrismaUnion.$1(existingUser.location!),
         updateAt: PrismaUnion.$1(DateTime.now().toString()),
       );
 
       final updatedUser = await _db.user.update(
         data: PrismaUnion.$2(updateInput),
         where: UserWhereUniqueInput(
-          verifyCode: PrismaUnion.$1(
-            StringNullableFilter(
-              equals: PrismaUnion.$1(code),
-            ),
-          ),
+          verifyCode: code,
         ),
       );
       return updatedUser;
@@ -290,7 +302,7 @@ class UserRepositoriesImpl implements AuthRepositoriesInterface {
         SecretKey(secretkey),
       );
       final user = payload.payload as Map<String, dynamic>;
-      final result = User.fromJson(user);
+      final result = await getSingleUser(uuid: user['uuid'] as String);
       return result;
     } catch (e) {
       return null;

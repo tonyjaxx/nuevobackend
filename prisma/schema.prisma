@@ -1,6 +1,6 @@
 generator client {
   provider = "dart run orm"
-  output   = "../lib/src/generated/prisma_client"
+  output   = "./generated_dart_client/"
 }
 
 datasource db {
@@ -8,30 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id              Int       @id @default(autoincrement())
-  uuid            String?   @unique(map: "User_uuid_key")
-  name            String?
-  lastname        String?
-  email           String?   @unique(map: "User_email_key")
-  phone           String?
-  password        String?
-  birthday        String?
-  gender          String?
-  role            user_role @default(USER)
-  email_verify_at String?
-  phone_verify_at String?
-  img_profile     String?
-  verify_token    String?
-  verify_code     String?
-  my_referral     String?
-  referral        String?
-  location        String?
-  create_at       String?
-  update_at       String?
-}
-
-model Banner {
+model banner {
   id        Int     @id @default(autoincrement())
   url       String?
   type      String?
@@ -42,109 +19,7 @@ model Banner {
   delete_at String?
 }
 
-model Wallet {
-  id          Int      @id @default(autoincrement())
-  uuid        String?
-  user_id     Int?
-  currency_id String?
-  price       Decimal?
-  create_at   String?
-  update_at   String?
-  delete_at   String?
-}
-
-model WalletHistories {
-  id          Int     @id @default(autoincrement())
-  uuid        String?
-  wallet_uuid String?
-  type        String?
-  price       Int?
-  note        String?
-  status      String?
-  create_by   String?
-  create_at   String?
-  update_at   String?
-  delete_at   String?
-}
-
-model UserPoint {
-  id        Int      @id @default(autoincrement())
-  user_id   Int?
-  price     Decimal?
-  delete_at String?
-}
-
-model UserAddress {
-  id        Int     @id @default(autoincrement())
-  title     String?
-  user_id   Int?
-  address   String?
-  location  String?
-  delete_at String?
-  create_at String?
-  update_at String?
-  active    String?
-}
-
-model Shop {
-  id             Int      @id @default(autoincrement())
-  slug           String?
-  uuid           String?
-  user_id        String?
-  tax            Decimal?
-  percentage     Decimal?
-  location       String?
-  phone          String?
-  show_type      String?
-  open           Boolean?
-  visibility     Boolean?
-  background_img String?
-  logo_img       String?
-  min_amount     Decimal?
-  status         String?
-  status_note    String?
-  deivery_time   String?
-  price          Int?
-  price_per_km   Int?
-  create_at      String?
-  update_at      String?
-  delete_at      String?
-  service_fee    Boolean?
-  verify         Boolean?
-  order_payment  String?
-}
-
-model Products {
-  id          Int      @id @default(autoincrement())
-  slug        String?
-  uuid        String?
-  shop_id     String?
-  category_id String?
-  brand_id    String?
-  unit_id     String?
-  keywords    String?
-  img         String?
-  qr_code     String?
-  tax         Decimal?
-  active      Boolean?
-  status      String?
-  min_qty     Int?
-  max_qty     Int?
-  addon       Boolean?
-  create_at   String?
-  update_at   String?
-  delete_at   String?
-  vegetarian  Boolean?
-  kcal        String?
-  carbs       String?
-  protein     String?
-  fats        String?
-  interval    Decimal?
-  status_note String?
-  kitchen_id  BigInt
-}
-
-model Orders {
+model orders {
   id                    Int      @id @default(autoincrement())
   user_id               Int
   total_price           Decimal
@@ -181,6 +56,131 @@ model Orders {
   cart_id               Int?
   email                 String?
   image_after_delivered String?
+}
+
+model products {
+  id          Int      @id @default(autoincrement())
+  slug        String?
+  uuid        String?
+  shop_id     String?
+  category_id String?
+  brand_id    String?
+  unit_id     String?
+  keywords    String?
+  img         String?
+  qr_code     String?
+  tax         Decimal?
+  active      Boolean?
+  status      String?
+  min_qty     Int?
+  max_qty     Int?
+  addon       Boolean?
+  create_at   String?
+  update_at   String?
+  delete_at   String?
+  vegetarian  Boolean?
+  kcal        String?
+  carbs       String?
+  protein     String?
+  fats        String?
+  interval    Decimal?
+  status_note String?
+  kitchen_id  BigInt
+}
+
+model shop {
+  id             Int      @id @default(autoincrement())
+  slug           String?
+  uuid           String?
+  user_id        String?
+  tax            Decimal?
+  percentage     Decimal?
+  location       String?
+  phone          String?
+  show_type      String?
+  open           Boolean?
+  visibility     Boolean?
+  background_img String?
+  logo_img       String?
+  min_amount     Decimal?
+  status         String?
+  status_note    String?
+  deivery_time   String?
+  price          Int?
+  price_per_km   Int?
+  create_at      String?
+  update_at      String?
+  delete_at      String?
+  service_fee    Boolean?
+  verify         Boolean?
+  order_payment  String?
+}
+
+model user {
+  id              Int       @id @default(autoincrement())
+  uuid            String?   @unique(map: "User_uuid_key")
+  name            String?
+  lastname        String?
+  email           String?   @unique(map: "User_email_key")
+  phone           String?
+  password        String?
+  birthday        String?
+  gender          String?
+  role            user_role @default(USER)
+  email_verify_at String?
+  phone_verify_at String?
+  img_profile     String?
+  verify_token    String?
+  verify_code     String?   @unique(map: "User_verify_code_key")
+  my_referral     String?
+  referral        String?
+  location        String?
+  create_at       String?
+  update_at       String?
+}
+
+model useraddress {
+  id        Int     @id @default(autoincrement())
+  title     String?
+  user_id   Int?
+  address   String?
+  location  String?
+  delete_at String?
+  create_at String?
+  update_at String?
+  active    String?
+}
+
+model userpoint {
+  id        Int      @id @default(autoincrement())
+  user_id   Int?
+  price     Decimal?
+  delete_at String?
+}
+
+model wallet {
+  id          Int      @id @default(autoincrement())
+  uuid        String?
+  user_id     Int?
+  currency_id String?
+  price       Decimal?
+  create_at   String?
+  update_at   String?
+  delete_at   String?
+}
+
+model wallethistories {
+  id          Int     @id @default(autoincrement())
+  uuid        String?
+  wallet_uuid String?
+  type        String?
+  price       Int?
+  note        String?
+  status      String?
+  create_by   String?
+  create_at   String?
+  update_at   String?
+  delete_at   String?
 }
 
 enum user_role {

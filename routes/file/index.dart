@@ -1,6 +1,8 @@
 import 'dart:io';
-import 'package:path/path.dart' as path;
+
 import 'package:dart_frog/dart_frog.dart';
+import 'package:path/path.dart' as path;
+
 import '../../public/lib/core/constants/constants.dart';
 
 Future<Response> onRequest(RequestContext context) async {
@@ -36,7 +38,7 @@ Future<Response> _updateFielData(RequestContext context) async {
         );
       }
 
-      final file = File(savePath);
+      final file = File('public/$savePath');
       await file.writeAsBytes(await field.readAsBytes());
 
       return Response.json(
@@ -61,5 +63,5 @@ Future<Response> _updateFielData(RequestContext context) async {
 
 String _getFullPath(String savePath) {
   final normalizedPath = path.posix.joinAll(savePath.split(path.separator));
-  return '$dominio/$normalizedPath';
+  return '${Constants.dominio}/$normalizedPath';
 }

@@ -1,4 +1,4 @@
-import '../../../../src/generated/prisma_client/model.dart';
+import '../../../../../../prisma/generated_dart_client/model.dart';
 
 abstract class AuthRepositoriesInterface {
   String hashpassword(String pass);
@@ -14,7 +14,7 @@ abstract class AuthRepositoriesInterface {
     required User users,
   });
   Future<List<User?>> getAllUser();
-  Future<User?> getSingleUser({required int id});
+  Future<User?> getSingleUser({required String uuid});
   Future<User?> deleteUserbyId({required int id});
   Future<User?> updateUserById({
     required String uuid,

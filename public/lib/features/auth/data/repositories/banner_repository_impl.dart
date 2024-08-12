@@ -1,8 +1,9 @@
 import 'package:orm/orm.dart';
+import '../../../../../../prisma/generated_dart_client/client.dart';
+import '../../../../../../prisma/generated_dart_client/model.dart';
+import '../../../../../../prisma/generated_dart_client/prisma.dart';
 import '../../domain/repositories/banner_repositoy.dart';
-import '../../../../src/generated/prisma_client/client.dart';
-import '../../../../src/generated/prisma_client/model.dart';
-import '../../../../src/generated/prisma_client/prisma.dart';
+
 
 class BannerRepositoryImpl implements BannerRepositoryInterface {
   BannerRepositoryImpl({required PrismaClient db}) : _db = db;

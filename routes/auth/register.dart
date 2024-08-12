@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dart_frog/dart_frog.dart';
+import '../../prisma/generated_dart_client/model.dart';
 import '../../public/lib/features/auth/domain/repositories/user_repositories.dart';
-import '../../public/lib/src/generated/prisma_client/model.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   return switch (context.request.method) {
@@ -51,7 +51,14 @@ Future<Response> _updateUserbyCode(RequestContext context) async {
     code: codeverify.toString(),
     users: User.fromJson(user),
   );
-  return Response.json(
-    
-  );
+  return switch (result) {
+    null => Response.json(
+        body: {'error': 'no se encontro el usuario'},
+        statusCode: HttpStatus.internalServerError,
+      ),
+    _ => Response.json(
+        body: {'user': result},
+        statusCode: HttpStatus.created,
+      ),
+  };
 }
