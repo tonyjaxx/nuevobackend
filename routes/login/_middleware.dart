@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dart_frog/dart_frog.dart';
 import 'package:dart_frog_auth/dart_frog_auth.dart';
-import 'package:puntossmart/features/auth/data/repositories/user_repositories_impl.dart';
-import 'package:puntossmart/features/auth/domain/repositories/user_repositories.dart';
-import 'package:puntossmart/src/generated/prisma_client/client.dart';
-import 'package:puntossmart/src/generated/prisma_client/model.dart';
+import '../../public/lib/features/auth/data/repositories/user_repositories_impl.dart';
+import '../../public/lib/features/auth/domain/repositories/user_repositories.dart';
+import '../../public/lib/src/generated/prisma_client/client.dart';
+import '../../public/lib/src/generated/prisma_client/model.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart' as shelf;
 
 final client =

@@ -1,4 +1,4 @@
-import 'package:puntossmart/src/generated/prisma_client/model.dart';
+import '../../../../src/generated/prisma_client/model.dart';
 
 abstract class BannerRepositoryInterface {
   Future<List<Banner>> getBannerData();

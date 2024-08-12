@@ -1,8 +1,8 @@
 import 'package:orm/orm.dart';
-import 'package:puntossmart/features/auth/domain/repositories/banner_repositoy.dart';
-import 'package:puntossmart/src/generated/prisma_client/client.dart';
-import 'package:puntossmart/src/generated/prisma_client/model.dart';
-import 'package:puntossmart/src/generated/prisma_client/prisma.dart';
+import '../../domain/repositories/banner_repositoy.dart';
+import '../../../../src/generated/prisma_client/client.dart';
+import '../../../../src/generated/prisma_client/model.dart';
+import '../../../../src/generated/prisma_client/prisma.dart';
 
 class BannerRepositoryImpl implements BannerRepositoryInterface {
   BannerRepositoryImpl({required PrismaClient db}) : _db = db;

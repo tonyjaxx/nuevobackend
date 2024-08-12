@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:dart_frog/dart_frog.dart';
-import 'package:puntossmart/core/constants/constants.dart';
+import '../../public/lib/core/constants/constants.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   return switch (context.request.method) {
@@ -26,9 +26,9 @@ Future<Response> _updateFielData(RequestContext context) async {
 
       String savePath;
       if (['.jpg', '.jpeg', '.png', '.gif'].contains(fileExtension)) {
-        savePath = path.join('lib', 'storage', 'images', fileName);
+        savePath = path.join('storage', 'images', fileName);
       } else if (['.mp4', '.avi', '.mov'].contains(fileExtension)) {
-        savePath = path.join('lib/', 'storage', 'video', fileName);
+        savePath = path.join('storage', 'video', fileName);
       } else {
         return Response.json(
           body: {'error': 'Formato de archivo no soportado'},

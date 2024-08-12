@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dart_frog/dart_frog.dart';
-import 'package:puntossmart/features/auth/domain/repositories/user_repositories.dart';
-import 'package:puntossmart/src/generated/prisma_client/model.dart';
+import '../../public/lib/features/auth/domain/repositories/user_repositories.dart';
+import '../../public/lib/src/generated/prisma_client/model.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   return switch (context.request.method) {

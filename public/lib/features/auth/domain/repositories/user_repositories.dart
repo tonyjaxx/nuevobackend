@@ -1,5 +1,5 @@
 import 'package:dart_frog/dart_frog.dart';
-import 'package:puntossmart/src/generated/prisma_client/model.dart';
+import '../../../../src/generated/prisma_client/model.dart';
 
 abstract class AuthRepositoriesInterface {
   String hashpassword(String pass);
