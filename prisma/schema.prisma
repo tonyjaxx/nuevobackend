@@ -1,0 +1,356 @@
+generator client {
+  provider = "dart run orm"
+  output   = "./generated_dart_client/"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Banner {
+  id        Int     @id @default(autoincrement())
+  title     String?
+  type      String?
+  imagen    String?
+  status    String?
+  data      String?
+  zone_id   Int?
+  create_at String?
+  update_at String?
+  delete_at String?
+}
+
+model Orders {
+  id                    Int       @id @default(autoincrement())
+  user_id               Int
+  total_price           Decimal
+  currency_id           Int
+  note                  String?
+  shop_id               Int
+  tax                   Decimal?
+  commission_fee        Decimal?
+  status                Boolean?
+  phone                 String?
+  username              String?
+  total_discount        Decimal?
+  current               Boolean
+  img                   String?
+  address_id            Int
+  waiter_id             Int?
+  table_id              Int?
+  booking_id            Int?
+  user_booking_id       Int?
+  waiter_fee            Decimal?
+  tips                  Decimal?
+  service_fee           Decimal?
+  address               String?
+  location              String?
+  email                 String?
+  image_after_delivered String?
+  created_at            DateTime?
+  updated_at            DateTime?
+}
+
+model Products {
+  id          Int      @id @default(autoincrement())
+  uuid        String?
+  shop_id     String?
+  category_id String?
+  brand_id    String?
+  unit_id     String?
+  keywords    String?
+  img         String?
+  qr_code     String?
+  active      Boolean?
+  status      String?
+  created_at  String?
+  updated_at  String?
+  deleted_at  String?
+}
+
+model Store {
+  id             Int       @id @default(autoincrement())
+  slug           String?
+  uuid           String?
+  vendor_id      Int?
+  percentage     Decimal?
+  location       String?
+  phone          String?
+  show_type      String?
+  open           Boolean?
+  visibility     Boolean?
+  background_img String?
+  logo_img       String?
+  status         String?
+  status_note    String?
+  price          Int?
+  created_at     DateTime?
+  updated_at     DateTime?
+  deleted_at     DateTime?
+  verify         Boolean?
+  order_payment  String?
+  module_id      Int?
+  subcription_id Int?
+}
+
+model Admin {
+  id         Int       @id @default(autoincrement())
+  name       String?
+  lastname   String?
+  email      String?
+  password   String?
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  uuid            String?   @unique(map: "uuid")
+  name            String?
+  lastname        String?
+  email           String?   @unique(map: "email")
+  phone           String?   @unique(map: "phone")
+  password        String?
+  birthday        DateTime?
+  gender          String?
+  district        Int?
+  sign_in_method  String?
+  email_verify_at Boolean?
+  phone_verify_at Boolean?
+  img_profile     String?
+  fcm_token       String?
+  otp_code        String?
+  verify_code     String?   @unique(map: "verify_code")
+  my_referral     String?
+  referral        String?
+  location        String?
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @updatedAt
+}
+
+model Vendor {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  lastname     String?
+  phone        String?
+  email        String?   @unique(map: "email")
+  verify_email Boolean?
+  verify_phone Boolean?
+  password     String?
+  imagen       String?
+  auth_token   String?
+  fcm_token    String?
+  status       Boolean?
+  created_at   DateTime?
+  updated_at   DateTime?
+}
+
+model Employee {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  lastname     String?
+  phone        String?
+  email        String?   @unique(map: "email")
+  password     String?
+  image        String?
+  vendor_id    Int?
+  store_id     Int?
+  status       Boolean?
+  auth_token   String?
+  fcm_token    String?
+  created_at   DateTime?
+  updated_at   DateTime?
+  is_logged_in Boolean?
+}
+
+model Useraddress {
+  id        Int     @id @default(autoincrement())
+  title     String?
+  user_id   Int?
+  address   String?
+  location  String?
+  delete_at String?
+  create_at String?
+  update_at String?
+  active    String?
+}
+
+model Userpoint {
+  id        Int      @id @default(autoincrement())
+  user_id   Int?
+  price     Decimal?
+  delete_at String?
+}
+
+model Wallet {
+  id          Int      @id @default(autoincrement())
+  uuid        String?
+  user_id     Int?
+  currency_id String?
+  price       Decimal?
+  create_at   String?
+  update_at   String?
+  delete_at   String?
+}
+
+model WalletVendor {
+  id         Int       @id @default(autoincrement())
+  uuid       String?
+  vendor_id  Int?
+  current_id String?
+  create_at  DateTime  @default(now())
+  update_at  DateTime? @updatedAt
+}
+
+model Wallethistories {
+  id          Int     @id @default(autoincrement())
+  uuid        String?
+  wallet_uuid String?
+  type        String?
+  price       Int?
+  note        String?
+  status      String?
+  create_at   String?
+  update_at   String?
+  delete_at   String?
+}
+
+model UserNotification {
+  id         Int       @id @default(autoincrement())
+  data       String?
+  status     Boolean?
+  user_id    Int?
+  vendor_id  Int?
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+model Subcription {
+  id         Int       @id @default(autoincrement())
+  name       String?
+  price      Decimal?
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+model Modules {
+  id                Int       @id @default(autoincrement())
+  module_name       String?
+  url_imagen        String?
+  status            Boolean?
+  store_count       Int?
+  created_at        DateTime?
+  updated_at        DateTime?
+  icon              String?
+  description       String?
+  all_zone_services Int?
+}
+
+model Category {
+  id         Int       @id @default(autoincrement())
+  name       String?
+  url_imagen String?
+  status     Boolean?
+  module_id  Int?
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+model Zones {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  coordinates Json?
+  status      Boolean?
+  created_at  DateTime?
+  updated_at  DateTime?
+}
+
+model Surveys {
+  id          Int       @id @default(autoincrement())
+  vendor_id   Int?
+  store_id    Int?
+  title       String?
+  points      String?
+  url_imagen  String?
+  category_id Int?
+  created_at  DateTime?
+  updated_at  DateTime?
+  is_deleted  Boolean?
+}
+
+model SurveysResult {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  survey_id  Int?
+  store_id   Int?
+  points     String?
+  created_at DateTime?
+  updated_at DateTime?
+  deleted_at DateTime?
+}
+
+model Questions {
+  id            Int       @id @default(autoincrement())
+  survey_id     Int?
+  question_text String?
+  created_at    DateTime?
+  updated_at    DateTime?
+}
+
+model Answers {
+  id          Int       @id @default(autoincrement())
+  question_id Int?
+  answer_text String?
+  points      String?
+  created_at  DateTime?
+  updated_at  DateTime?
+}
+
+model AnswersResult {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  question_id Int?
+  answer_id   Int?
+  created_at  DateTime?
+  updated_at  DateTime?
+}
+
+model Departament {
+  id          Int     @id @default(autoincrement())
+  departament String?
+}
+
+model Province {
+  id             Int     @id @default(autoincrement())
+  province       String?
+  departament_id Int?
+}
+
+model District {
+  id          Int     @id @default(autoincrement())
+  district    String?
+  province_id Int?
+}
+
+model Otp {
+  id         Int      @id @default(autoincrement())
+  number     String?
+  code       String?
+  expired    DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model BussinessSetting {
+  id                  Int     @id @default(autoincrement())
+  name                String?
+  send_email          String?
+  send_email_password String?
+  aws_s3              String?
+  s3_secret_key       String?
+  bucket_s3           String?
+  twilio_id           String?
+  twilio_key          String?
+  twilio_phone        String?
+}
